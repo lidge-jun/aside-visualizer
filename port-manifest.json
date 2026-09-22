@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "upstream": {
     "repository": "lidge-jun/codexclaw",
-    "sourceSha": "9fc6984c862a90e1d6a12749dc4d1120289a3adf",
+    "sourceSha": "9d32c389f98da74d147ec6726b97a6f972760414",
     "path": "plugins/codexclaw/skills/dev-visualizer"
   },
   "sharedFiles": [
@@ -109,7 +109,7 @@
     },
     {
       "path": "scripts/report-contract.mjs",
-      "sha256": "ec1fd22d96ea5f44bcd7c053ad9efb54e5f595fcd824af29bf408b6704b0bd0c"
+      "sha256": "ba095e52e0a608cf055879586547d2b884162476e6d5d37e130c826049c624a7"
     },
     {
       "path": "scripts/report-intake.mjs",
