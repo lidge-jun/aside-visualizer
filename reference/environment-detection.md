@@ -1,69 +1,56 @@
-# Delivery — inspect capabilities, not application labels
+# Aside delivery and proportionate verification
 
-Choose delivery from the user's requested artifact and the current host contract.
-Environment variables, app names, ports and installed packages are hints only;
-they do not establish that the conversation supports a renderer.
+Aside delivers standalone artifact files in the session's authorized artifacts
+folder. It does not provide the codex host's inline HTML-fragment renderer.
+A filename or successful open command does not prove rendering or PDF export.
 
-In Aside the delivery contract is: **every visual deliverable is a standalone
-artifact file** written under the session's `.../artifacts` directory (scratch
-renders under `.../tmp`). The Aside browser (Playwright `page` in the REPL) is
-the verification surface. There is no inline HTML-fragment renderer.
-
-| Evidence actually available | Use |
+| Requested output | Delivery and proof |
 |---|---|
-| Markdown-only answer is enough | Plain markdown; do not build a visual |
-| User asks for a standalone HTML/SVG/PDF file | Create that file under the session artifacts dir |
-| Aside browser available (it is, in REPL sessions) | Open the artifact (`openTab(file://…)` or a loopback server), snapshot/screenshot to verify, return the file link |
-| Paged report PDF needed | `scripts/export-paged-report.mjs` with local Chrome + poppler |
-| No renderer/exporter is available | Provide useful editable source/text and state which verification/output is unavailable |
+| Markdown answer | Return Markdown; no visual is required |
+| Simple static HTML/SVG in ordinary flow | Reread source, save to artifacts, return link; no mandatory browser round trip |
+| Computed or interactive visual | Execute in the available browser, observe the affected state and fix actual defects |
+| PDF/print/paged report | Actually export, select assurance profile, run the applicable PDF checks |
+| Missing export capability | Return useful editable source and identify the requested output/check that did not run |
 
-`reference/visualize-contract.md` is codex provenance only; Aside exposes no
-`visualize` skill and no fragment contract. Do not emit historical directives
-from it, and never use a local server's health response as proof that the user
-is reading its UI.
+Browser availability does not promote a static edit to visual QA. A reported defect
+or computed geometry can require rendering under VIZ-VERIFY-SCALE-01.
 
-## Files and browser inspection
+## Browser and no-system-Chrome PDF route
 
-- Write deliverables to the absolute `.../artifacts` path given in the
-  working-directory instructions; disposable inspection copies go under
-  `.../tmp`. Scratch space elsewhere is not conversation-readable.
-- `file://` URLs are refused by the Aside daemon ("Cannot navigate to a file URL
-  without local file access"). Load a self-contained document as a
-  `data:text/html` URL — `goto("data:text/html;charset=utf-8," +
-  `encodeURIComponent(html))` in the REPL; the wrapper has no `setContent()`.
-  If the document must load over HTTP (fetch, modules), serve **only** the
-  artifact directory on loopback with a task-owned process: double-fork it so
-  it survives the bash call that started it —
-  `( python3 -m http.server 18771 --bind 127.0.0.1 --directory "$T" >/dev/null 2>&1 & )`
-  — and stop it after use (`pkill -f "http.server 18771"`). Loopback is
-  reachable from both the REPL browser and codemode's browser (tested
-  2026-09-16); bind to 127.0.0.1 only, never a LAN interface.
-- Paper size: the REPL pdf wrapper ignores `format:` and `width/height` and
-  reads CDP-style options — pass `preferCSSPageSize: true` (template `@page`
-  wins, matches the CLI script's output) or `paperWidth: 8.27, paperHeight:
-  11.69`. A `format` shortcut was measured to produce US Letter while claiming
-  A4. Codemode's `browse.captureMany` accepts only `paperWidth`,
-  `paperHeight`, `printBackground` — no `preferCSSPageSize`, so pagination can
-  differ from the template spec there. Details: [no-chrome
-  export](no-chrome-pdf-export.md).
-- Verify with `snapshot()` / `page.screenshot()`; for print/PDF claims inspect
-  the exported file itself, not the browser view.
-- Platform open commands (`open`) are optional conveniences. Successful process
-  dispatch proves the request was sent, not that a page rendered. Inspect
-  before claiming it.
+Use the current Aside tool contract, not an assumed account or API. The
+[no-Chrome export recipe](no-chrome-pdf-export.md) records the measured Aside
+`page.pdf()` route. Keep it available alongside the optional local Chromium CLI.
+`--qa-only` reads a PDF from either engine and never needs system Chrome.
 
-## Inline chat and standalone are different products
+For browser work, use a self-contained data URL or a task-owned loopback server
+when the current host refuses file URLs. Serve only the artifact directory on
+127.0.0.1, record the background process handle, and stop only that process. Do not
+use broad name-based process termination or reuse another task's server/profile.
+Recorded 2026-09-16 wrapper limitations are historical measurements; recheck current
+option support. Select explicit CSS A4/Letter or documented inch dimensions, then
+verify every actual PDF page. Language never implies paper size.
 
-Aside chat renders markdown text and links to artifact files; it does not
-render inline HTML fragments or host-provided interaction APIs. A standalone
-report owns its document structure, tokens and interactions. Never deliver a
-chat markdown dump as "the HTML file", and never depend on REPL-only globals
-(`page`, `snapshot`, `fs`) inside exported files.
+Keep browser/REPL globals out of saved standalone files. Do not fetch private data
+or add telemetry. If offline operation is promised, ensure all dependencies are local
+and test that promise for computed output. `visualize-contract.md` is historical
+provenance only, never an alternative Aside rendering API.
 
-“Self-contained” means the necessary code/data/assets are included; a CDN-backed
-single file still needs network access. Test with network disabled before claiming
-offline behavior. Do not fetch private data or introduce telemetry into an artifact.
+## Research handoff adapter
 
-PDF is a separate output: perform the export (`page.pdf()` or
-`scripts/export-paged-report.mjs`) and inspect its pages following
-[documents/PDF](document-pdf.md). Browser rendering alone cannot certify PDF layout.
+`research-adapter.mjs` accepts a caller-supplied retrieval function and returns the
+same model/receipt/issues contract as upstream. A source-only invocation never calls
+it. When authorized research is requested, use the currently exposed Aside research
+capability and adapt its actually read sources, spans, claims, answers, opposing
+evidence and gaps to that contract. Snippets remain leads; do not convert them into
+verified observations. Missing capability is an explicit issue, not invented facts.
+Set generation metadata `hostAdapter: "aside"` and the loaded skill/package/source
+versions when known. No fixed account path, daemon or provider is required.
+
+The Node CLI supports frozen source inputs without network:
+
+```sh
+node scripts/report-intake.mjs assets/research-handoff.example.json
+```
+
+See [report pipeline](report-pipeline.md) for executable signatures. This adapter
+contract does not authorize network activity or a second research/QA engine.
