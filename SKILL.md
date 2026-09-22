@@ -1,21 +1,25 @@
 ---
 name: dev-visualizer
-description: "Create well-composed visual documents, HTML reports, SVG diagrams, charts, interactive explainers and PDF deliverables. Use for visualize, visual explanations, architecture diagrams, comparison reports, infographics, document creation, 시각화, 그려줘, 문서 만들어줘, 보고서, PDF 생성. Preserve explicit formats and templates; text-only requests and ordinary code changes do not need a visual."
+description: "Create well-composed visual documents, HTML reports, SVG diagrams, charts, interactive explainers and PDF deliverables. Use for visualize, visual explanations, architecture diagrams, comparison reports, infographics, document creation, 시각화, 그려줘, 문서 만들어줘, 보고서, PDF 생성. Preserve explicit formats and templates; text-only requests and ordinary code changes do not need a visual. A simple inline or static artifact ships without a render round trip; rendered proof is for computed and exported output."
 metadata:
-  last-verified: "2026-09-16"
-  short-description: "Visual documents, SVG/HTML explainers and verified PDF delivery."
-  keywords: [diagram, visualization, visualize, document, report, SVG, HTML, PDF, interactive, cover, contents, storyline, cxc-dev-visualizer]
+  last-verified: "2026-09-22"
+  short-description: "Visual documents, SVG/HTML explainers and PDF delivery, verified in proportion."
+  keywords: [diagram, visualization, visualize, document, report, SVG, HTML, PDF, interactive, cover, contents, storyline]
 ---
 
 # Visual documents — compose, render, deliver
 
 Turn the reader's question and supplied facts into a useful visual artifact.
-This skill (ported from codexclaw `cxc-dev-visualizer`) owns artifact
-composition and delivery in Aside. There is no host `visualize` inline-fragment
-renderer in Aside: every visual deliverable is a standalone artifact file
-(HTML/SVG/PDF) written under the session's artifacts directory, verified by
-opening it in the Aside browser. Format-specific Aside skills (docx, pptx,
-xlsx, pdf) own document mechanics; this skill owns visual composition.
+This is the Aside account-skill port of codexclaw's shared visualizer. Aside delivers
+standalone HTML/SVG/PDF files under the session artifacts directory, not inline HTML
+fragments. Simple static files require source review only. Computed or exported
+output uses the proportionate verification route below; browser availability alone
+does not impose a render step. Available format-specific Aside skills own document mechanics.
+
+Shared maintenance is upstream-first: fix/verify codexclaw, adapt/verify this port,
+then close the downstream issue. See [port workflow](reference/port-maintenance.md).
+Ordinary artifact requests do not authorize repository work, installation, publication
+or a separate loop.
 
 ## Start with the requested outcome
 
@@ -39,20 +43,30 @@ focused explanation. Neither phrase grants permission to publish or install.
 
 | Requested result | Authoring route | Read when selected |
 |---|---|---|
-| In-conversation comparison, simulation or explainer | Standalone HTML artifact in the session artifacts dir; verify by opening in the Aside browser | [delivery](reference/environment-detection.md) |
-| Small static structure expressible as labeled nodes/edges | Mermaid fenced block in chat if it renders; otherwise a standalone SVG/HTML artifact | [SVG and interaction](reference/svg-and-interaction.md) only for custom output |
-| Editable SVG diagram or infographic | Native SVG with legible geometry and text, saved as an artifact | [Visual design](reference/visual-design.md), [SVG and interaction](reference/svg-and-interaction.md) |
+| In-conversation comparison, simulation or explainer | Standalone artifact; source review for simple static output, actual execution for computed output | [delivery](reference/environment-detection.md) |
+| Small static structure expressible as labeled nodes/edges | Mermaid if host supports it; otherwise a suitable artifact | [SVG and interaction](reference/svg-and-interaction.md) only for custom output |
+| Editable SVG diagram or infographic | Native SVG with legible geometry and text | [Visual design](reference/visual-design.md), [SVG and interaction](reference/svg-and-interaction.md) |
 | HTML report, technical brief, visual review or document | Semantic HTML with purposeful figures and readable sections | [Reader documents](reference/reader-documents.md), [Visual design](reference/visual-design.md), [documents/PDF](reference/document-pdf.md) |
-| Multi-page report for a decision maker (client report, research report, proposal, 보고서) | [Report writing](reference/report-writing.md) storyline first, then [paged-report.html](assets/paged-report.html) exported with `scripts/export-paged-report.mjs` (needs node + local Chrome; poppler for TOC/QA) or the no-Chrome REPL route in [no-chrome-pdf-export](reference/no-chrome-pdf-export.md) | [Report writing](reference/report-writing.md), [Documents/PDF](reference/document-pdf.md) REPORT-PRINT-01/QA-01 and the CJK recipe, [no-chrome export](reference/no-chrome-pdf-export.md) if Chrome is absent, [Visual design](reference/visual-design.md) REPORT-DESIGN-01/VIZ-01 |
+| Multi-page report for a decision maker (client report, research report, proposal, 보고서) | [Report writing](reference/report-writing.md) storyline first, then [paged-report.html](assets/paged-report.html) exported with `scripts/export-paged-report.mjs` | [Report writing](reference/report-writing.md), [Documents/PDF](reference/document-pdf.md) REPORT-PRINT-01/QA-01 and the CJK recipe, [Visual design](reference/visual-design.md) REPORT-DESIGN-01/VIZ-01 |
 | Interactive HTML model | One useful visual plus requested inputs that change it | [SVG and interaction](reference/svg-and-interaction.md), design reference if styling is open |
-| PDF, print report or handout | `page.pdf()` on the rendered artifact (Aside's own Chromium — no system Chrome needed, see [no-chrome export](reference/no-chrome-pdf-export.md)), or `scripts/export-paged-report.mjs` for paged reports with Chrome; actually export | [Reader documents](reference/reader-documents.md), [Documents/PDF](reference/document-pdf.md); Aside `pdf` skill for inspection |
-| Word/Google Docs, Slides/PPTX or spreadsheet | Aside `docx`/`pptx`/`xlsx`/`google-docs`/`google-sheets` skills own mechanics; use this skill for visual composition | [Documents/PDF](reference/document-pdf.md) for boundaries |
+| PDF, print report or handout | Aside `page.pdf()` or available local exporter; [no-Chrome route](reference/no-chrome-pdf-export.md) | [documents/PDF](reference/document-pdf.md), [no-Chrome export](reference/no-chrome-pdf-export.md) |
+| Word/Google Docs, Slides/PPTX or spreadsheet | Available format-specific owner; use this skill for visual composition | [Documents/PDF](reference/document-pdf.md) for boundaries |
 | Scientific figure intended for export/publication | Standard plotting tools and vector/raster artifact | Design/label principles here; scientific tool's own workflow |
-| Website, app page or existing component change | Project conventions own implementation | This skill only for embedded explanatory artifacts |
+| Website, app page or existing component change | Project conventions and available frontend owner | This skill only for explanatory artifacts |
 
 No tool or companion skill is assumed installed. Inspect available capabilities;
 if a required exporter is absent, deliver the useful editable source and identify
 the missing requested output. Never call print-ready HTML a generated PDF.
+
+## Report evidence, language and analytical exhibits
+
+For a report that answers research questions, use the existing model and
+[research handoff](reference/report-pipeline.md); source-only intake performs no
+retrieval. Preserve unknown provenance and unanswered questions. For English or
+bilingual output, use [English authoring](reference/english-authoring.md), choose
+source/output languages separately, and preserve values and qualifications. Choose
+[exhibit recipes](reference/exhibit-recipes.md) by question and evidence; a table
+or prose is valid. These are report tools, not prerequisites for a simple HTML edit.
 
 ## Compose before styling
 
@@ -72,19 +86,21 @@ Examples of structure that earns its form:
 
 - Explain a mechanism with actions on connectors and a caption stating what changes.
 - Compare alternatives on the same dimensions and scale, with a table for exact values.
-- Reports and explainers follow [Reader documents](reference/reader-documents.md):
-  answer first, claim-shaped headings, evidence in an appendix.
+- Pick the genre first: decision memo, research synthesis, explanation or history,
+  how-to or reference. It selects the structure and the review questions
+  (REPORT-STORY-00). Evidence goes in an appendix in every genre.
+- Decision documents and explanations follow [Reader documents](reference/reader-documents.md):
+  answer first, headings that state findings. A research synthesis instead ends at what
+  is unresolved, and a reference ends at the definitions — neither owes the reader an ask.
 - A report over about four pages follows [Report writing](reference/report-writing.md):
-  write the dot-dash storyline before any HTML, make every section heading a claim
-  that reads in sequence to the ask, give the summary a full page that decides
-  alone, number and source every exhibit, hold one register, and name the issuing
-  organization the way the reader knows it. Cover and contents pages are part of
-  the document, not decoration.
+  write the storyline before any HTML, make every section heading carry that unit's
+  content, give the summary a full page that stands alone, number and source every
+  exhibit, hold one register, and name the issuing organization the way the reader knows
+  it. Cover and contents pages are part of the document, not decoration.
 - For a dense system, use overview plus focused detail rather than shrinking every label.
 
-Keep document narrative in the document. Aside chat renders markdown and
-artifact files, not inline HTML fragments; do not paste a whole report into a
-chat message.
+Keep document narrative in the document. Inline conversation visuals instead obey
+the host's narrower composition contract; do not paste a whole report into a fragment.
 
 ## Build the smallest complete artifact
 
@@ -104,10 +120,8 @@ body with claim headings and numbered exhibits, appendix and notice, with a
 house-style token block at the top. Its company and numbers are fictional.
 `scripts/export-paged-report.mjs <in.html> <out.pdf>` prints it with a local
 Chromium, fills the contents page numbers in a second pass and reports layout
-findings; `--qa-only <pdf>` audits a PDF from any engine and needs only poppler.
-Without system Chrome, export through Aside's own Chromium instead — the
-validated REPL two-pass and codemode routes are in
-[no-chrome-pdf-export](reference/no-chrome-pdf-export.md).
+findings; `--qa-only <pdf>` audits a PDF from any engine without system Chrome.
+Aside’s own export path stays available in [no-chrome-pdf-export](reference/no-chrome-pdf-export.md).
 
 Prefer native HTML/CSS/SVG and existing libraries. For library-dependent visuals,
 verify actual versions and APIs, use authorized pinned assets, and distinguish
@@ -120,22 +134,49 @@ CDN and environment defaults are not requirements. The shell helper wraps truste
 local content, is not a sanitizer or inline-fragment generator, and needs an explicit
 authorized output path for durable delivery. Do not install it as a prerequisite.
 
-## Verify what the reader receives
+## Verify in proportion to what can break
 
-**DIAGRAM-RENDER-VERIFY-01:** render the final artifact, read the screenshot/page,
-fix clipping, collisions, empty charts and runtime errors. Inspect the longest
-labels at narrow and wide widths appropriate to the artifact; for responsive
-HTML include 320/736px and the intended desktop size. SVG text must remain legible
-at its intended display/export sizes, not merely within a valid viewBox.
+**VIZ-VERIFY-SCALE-01 — the proof matches the failure it would catch.** Rendering an
+artifact and reading the result costs a round trip, and much of what this skill
+produces cannot fail out of sight: the reader sees an inline visual before a
+screenshot could reach you, and a static page in normal flow shows its own text.
+Spend the round trip where the visible result is computed rather than written.
+
+| Delivering | Before delivery |
+|---|---|
+| An inline visual in this conversation, or a fenced diagram the host renders | Reread the source once and send it. The reader's screen is the render. |
+| A small static HTML/SVG page in ordinary flow — prose, tables, hand-placed shapes, no runtime data, no library, no export | Reread the source, save it, return the link. |
+| Anything whose visible result is computed — marks drawn from data, connector geometry derived from rendered bounds, a runtime library or webfont, an input that changes the output | DIAGRAM-RENDER-VERIFY-01 in full. |
+| PDF, print output, or a multi-page paged report | DIAGRAM-RENDER-VERIFY-01 with a stated assurance profile. Merely saving or sharing a simple static HTML/SVG file does not promote it to this tier. |
+
+Two rules hold in every tier. An unrun check is never written up as a passed one:
+"not rendered — static HTML in normal flow" is honest, "verified" is not. And a
+defect promotes the artifact: once the reader reports something wrong, or a first
+render shows it, render each further fix before sending it. Nothing here is enforced
+by a hook, and the calling task's own verification gate still governs its work.
+
+**DIAGRAM-RENDER-VERIFY-01 — for the computed and exported tiers, and for any
+artifact you have reason to doubt:** render the final artifact, read the
+screenshot/page, fix clipping, collisions, empty charts and runtime errors. Inspect
+the longest labels at narrow and wide widths appropriate to the artifact; for
+responsive HTML include 320/736px and the intended desktop size. SVG text must remain
+legible at its intended display/export sizes, not merely within a valid viewBox.
 
 For interaction, change the primary input and observe the resulting marks/values;
 exercise keyboard access and reset when provided. A static screenshot is not
 interaction proof. For PDF, inspect the **actual exported pages**, including
 multipage tables, final content, Korean glyphs and selected scenario state.
-Print CSS or a PDF filename alone proves nothing. For a delivered report, run the
+Print CSS or a PDF filename alone proves nothing. For a delivered PDF/print/paged report, run the
 export script's QA (REPORT-QA-01) and the fresh-reader check on the rendered pages
 (REPORT-FRESH-01); an orphan line at the top of a page, a heading stranded at the
 bottom, a half-empty page or a figure whose text prints under 8.5pt is a defect.
+
+How much of that verification a PDF/print/paged report owes is a **choice stated up front**, not a
+fixed tax. Reading every rendered page is expensive, and a draft does not earn it.
+Pick a receipt profile — `draft`, `standard` or `publication` — per
+[report pipeline](reference/report-pipeline.md) REPORT-ASSURANCE-01, and report the
+verdict with the profile and the checks it omitted. A lighter profile is honest; a
+draft presented as a verified publication is not.
 
 **DIAGRAM-SYNTAX-01:** use an existing supported parser/checker where available.
 XML validation can catch malformed SVG; it cannot catch overlapped labels. Do not
@@ -143,20 +184,20 @@ invent a Mermaid CLI parse command or install a runner just for incidental proof
 
 **DIAGRAM-A11Y-01:** provide names/descriptions, meaningful heading order, data/text
 alternatives, visible keyboard focus, non-color meaning, readable contrast and
-reduced motion where applicable. Inspect actual contrast and reading order;
-adding ARIA does not establish accessibility conformance.
+reduced motion where applicable. These are composition decisions and apply to the
+smallest inline visual. The separate inspection pass — reading actual contrast and
+reading order in the rendered result — belongs to the tiers that already render;
+adding ARIA does not establish accessibility conformance either way.
 
 ## Deliver and retain provenance
 
-Save deliverables under the session's artifacts directory (the absolute
-`.../artifacts` path from the working-directory instructions), scratch renders
-under `.../tmp`. Return a clickable absolute file link for a requested
-standalone artifact. Only say it opened, rendered, exported or published when
-that outcome was observed in the Aside browser or the exported file. Describe
-the useful result concisely.
+Save deliverables to the session artifacts directory named by the current Aside host.
+Use its temporary directory for disposable QA, not durable deliverables. Return a clickable
+absolute file link for a requested standalone artifact. Use the current host's exact
+content-reference contract for inline output. Only say it opened, rendered, exported
+or published when that outcome was observed. Describe the useful result concisely.
 
 [Source patterns](reference/source-patterns.md) records the GitHub references,
 observed dates, licensing and adopted/rejected ideas. Read it when borrowing further
-material or refreshing the skill, not for every small diagram.
-`reference/visualize-contract.md` is a historical snapshot of the codex host's
-inline renderer contract; Aside has no equivalent, so it is provenance only.
+material or refreshing the skill, not for every small diagram. Existing
+`reference/visualize-contract.md` is historical codex provenance, not an Aside renderer. The current exposed host skill wins; a snapshot cannot grant renderer support.

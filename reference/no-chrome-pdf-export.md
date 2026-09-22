@@ -3,9 +3,10 @@
 `scripts/export-paged-report.mjs` needs a local Chromium binary. Aside is a
 Chromium fork: the REPL browser tab and codemode's `browse.captureMany` both
 print through the same engine, so a report can be exported with **no system
-Chrome at all**. Poppler is bundled with Aside at `/Users/jun/.aside/runtime/bin`
-(`pdftotext`, `pdfinfo`) and is already on the default bash PATH, so TOC mapping
-and QA work everywhere.
+Chrome at all**. Use bundled Poppler when it is available on PATH, or pass explicit `--pdfinfo`
+and `--pdftotext` paths. Check availability in the current host: missing tools
+produce BLOCKED/3, never a verification PASS. This recipe records measurements
+from 2026-09-16; confirm current wrapper options before use.
 
 Pick one row, not all three:
 
@@ -21,11 +22,9 @@ Pick one row, not all three:
   access"). Deliver a self-contained document as a `data:text/html` URL
   (REPL: `goto("data:text/html;charset=utf-8," + encodeURIComponent(html))`)
   or serve the artifact directory over loopback HTTP.
-- Loopback HTTP **works** (tested 2026-09-16), but a background server started
-  in one bash call is killed with it. Double-fork so it survives:
-  `( /usr/bin/python3 -m http.server 18771 --bind 127.0.0.1 --directory "$T" >/dev/null 2>&1 & )`
-  Kill it when done: `pkill -f "http.server 18771"`. Bind to 127.0.0.1 only;
-  never expose the artifact dir on a LAN interface.
+- Loopback HTTP worked in the 2026-09-16 probe. Start a task-owned server bound
+  to 127.0.0.1 using the current host background-process API, record its handle,
+  and stop only that process after use. Do not kill processes by a broad name.
 - The REPL page wrapper has no `setContent()`; `goto()` with a data: URL is
   the supported way to load a string. `format: "A4"` and `width/height` are
   ignored by the wrapper — use `preferCSSPageSize: true` (lets the template's
@@ -82,8 +81,9 @@ await tab.pdf({ path: "/abs/session/artifacts/report-final.pdf", preferCSSPageSi
 
 4. **bash — verify.** `pdftotext -f 2 -l 2` the contents page and check the
    printed numbers; run the layout QA via
-   `node scripts/export-paged-report.mjs --qa-only report-final.pdf --json`
-   (QA does not need Chrome; only the export does). Exit 0 = pass, 2 = findings.
+   `node scripts/export-paged-report.mjs --qa-only report-final.pdf --paper-size A4 --json`
+   (QA does not need Chrome; only the export does). Exit 0 = automated checks completed, 1 = FAIL, 2 = REVIEW, 3 = BLOCKED.
+   `deliveryReady:false` stays separate from successful automatic checks.
 
 ## Path B — codemode captureMany (batch / shell, not template-exact)
 
@@ -109,6 +109,8 @@ keep on batches of URLs, not on the two-pass dance.
 
 `scripts/export-paged-report.mjs --qa-only <pdf> --json` needs only poppler,
 no Chrome. It reports page count, page size, blank-page and orphan findings.
-Run it on every delivered PDF regardless of which engine printed it. Note the
+Select the same explicit A4/Letter size as the export; every page is checked.
+Run automated checks on delivered PDFs at the chosen assurance level. This does not
+require rendering a simple static HTML edit that is not being exported. Note the
 `--qa-only` JSON goes to stdout while Chrome stderr noise goes to stderr; run
 with `2>/dev/null` or redirect to files before parsing.

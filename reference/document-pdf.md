@@ -3,6 +3,9 @@
 Use this reference for reports, proposals and other flowing documents.
 Choose the requested medium before choosing the renderer. A PDF is a fixed
 snapshot; an HTML tool and an editable Word document have different contracts.
+These print/export checks do not apply to a simple static HTML edit that is not
+being exported. Select VIZ-VERIFY-SCALE-01 first; choose an assurance profile only
+for PDF output.
 
 ## Preserve the source contract
 
@@ -52,9 +55,6 @@ Use explicit chapter breaks only at real reading boundaries, not every section.
 For a multi-page report, start from [paged-report.html](../assets/paged-report.html)
 and export with `scripts/export-paged-report.mjs`; the rules below are what that
 asset implements. Visual style stays adaptable; the furniture does not.
-Without a system Chrome, export through Aside's own Chromium — the validated
-REPL two-pass and codemode routes (including the poppler-only QA) are in
-[no-chrome export](no-chrome-pdf-export.md).
 
 ### REPORT-PRINT-01 Page furniture for a paged report (STRICT)
 
@@ -94,7 +94,7 @@ Measured engine support (2026-09-09, HeadlessChrome 152, `--print-to-pdf`):
 | `break-*`, `orphans`, `widows` | yes | yes | yes |
 | JavaScript charts before print | yes | yes | no |
 
-Probe: `devlog/_plan/260909_visualizer_report_quality/evidence/chrome-paged-probe.md`.
+Probe: [print-provenance.md](print-provenance.md#chromium-probe).
 
 The generic fragment below remains for single documents that are not reports:
 
@@ -132,7 +132,7 @@ Margin boxes, named pages and running headers differ across rendering engines.
 
 ### CJK print recipe (klreq / jlreq / clreq, Chromium print, 2026-09-09)
 
-Findings with sources are in `devlog/_plan/260909_visualizer_loop_merge/evidence/aside-G_cjk_typography.md`.
+Findings are summarised in [print-provenance.md](print-provenance.md#cjk-typography).
 What they settle for an A4 report rendered by Chromium:
 
 - Korean: word-based breaking (`word-break: keep-all`) for body text per klreq's
@@ -221,12 +221,21 @@ PDF/A, PDF/UA or tagged-output options require independent conformance validatio
 
 ### REPORT-QA-01 Render check before delivery (STRICT for delivered reports)
 
-Run `node scripts/export-paged-report.mjs <in.html> <out.pdf>` (or `--qa-only
-<pdf>` for a PDF from another engine). It reports page size, contents page
+Run `node scripts/export-paged-report.mjs <in.html> <out.pdf> --paper-size A4`
+(or `--qa-only <pdf> --paper-size Letter` for an explicitly Letter PDF from another
+engine). Exit 0 means required automated checks completed; 1 FAIL, 2 REVIEW and
+3 BLOCKED are distinct. `deliveryReady:false` remains until the chosen final
+assurance review is recorded. It reports page size, contents page
 numbers, missing page numbers, an orphan fragment at the top of a page, a heading
 stranded at the bottom, and pages with 30% or more of the text area blank. A
 `REVIEW` verdict is read, each finding fixed or justified in the evidence note.
-Then render the pages (`pdftoppm -r 60 -png`) and look at every page for what
+
+The output directory is created if it does not exist, so `<out.pdf>` may name a path
+that is not there yet. If something other than a directory occupies that parent path,
+the run stops and says so rather than reporting a print failure — the older behaviour
+handed the destination to Chromium and returned `chrome print failed`, which named the
+browser for a filesystem problem. `--qa-only` creates nothing; it reads an existing PDF.
+For publication assurance, render the pages (`pdftoppm -r 60 -png`) and look at every page for what
 text extraction cannot see: figure text under 8.5pt, low-contrast labels, a figure
 separated from its heading, a table header row that failed to repeat, missing
 Hangul glyphs, and a summary page that is mostly white. Yesterday's failure mode
@@ -235,9 +244,11 @@ three pages were half empty; the script and the page images are how that is caug
 
 - Check file existence, nonzero size, parsability, page count and page dimensions.
 - Extract text; reconcile all records, totals, final-row marker and selected inputs.
-- Render every PDF page to images with an available tool such as `pdftoppm`.
-- Inspect those images for missing glyphs, truncation, overlap and unintended blanks.
-- Check the ending too: a nearly empty page containing only a short source note
+- At publication assurance, render every PDF page with an available tool such as
+  `pdftoppm`; lighter profiles state omitted checks rather than imply full review.
+- For publication assurance, inspect those images for missing glyphs, truncation,
+  overlap and unintended blanks.
+- In that publication page review, check the ending too: a nearly empty page containing only a short source note
   may need local spacing or page-break adjustment. Keep the source note and
   readable type; do not drop records or shrink the whole report to reduce pages.
 - Name the pages containing table continuations and verify repeated column headers.
