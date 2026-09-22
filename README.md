@@ -71,7 +71,7 @@ not itself authorize a push, release, installation or issue closure.
 
 ### Port ledger — 0.1.0 source verification
 
-Shared source: codexclaw `cdb436902e9c5f37933a72590eb2cb4b86be45ba`.
+Shared source: codexclaw `9fc6984c862a90e1d6a12749dc4d1120289a3adf`.
 `port-manifest.json` pins the source revision and SHA-256 of every shared payload
 file. Adapted files are listed separately; installed account versions remain unknown
 until explicitly checked. The earlier `03b7794` port lacked these fixes.

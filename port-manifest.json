@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "upstream": {
     "repository": "lidge-jun/codexclaw",
-    "sourceSha": "cdb436902e9c5f37933a72590eb2cb4b86be45ba",
+    "sourceSha": "9fc6984c862a90e1d6a12749dc4d1120289a3adf",
     "path": "plugins/codexclaw/skills/dev-visualizer"
   },
   "sharedFiles": [
@@ -117,7 +117,7 @@
     },
     {
       "path": "scripts/report-locale.mjs",
-      "sha256": "f9269240d04ebfe73ca29a67031c2935a82c10154ca71c2056f2ba9cc250db05"
+      "sha256": "92e2184968b7da493db597ed1c2131cf14bd35bdf85fadb6fdad280340fc65a1"
     },
     {
       "path": "scripts/research-adapter.mjs",

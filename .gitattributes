@@ -1,0 +1,4 @@
+# Shared payload hashes are defined over the upstream LF bytes on every platform.
+* text=auto eol=lf
+*.png binary
+*.pdf binary
