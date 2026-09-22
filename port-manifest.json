@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "version": "0.1.0",
+  "upstream": {
+    "repository": "lidge-jun/codexclaw",
+    "sourceSha": "9d32c389f98da74d147ec6726b97a6f972760414",
+    "path": "plugins/codexclaw/skills/dev-visualizer"
+  },
+  "sharedFiles": [
+    {
+      "path": "assets/editorial-report.html",
+      "sha256": "42f5565f27bb86e83903f67d3a96aba634b0e582a26504efaa74f82f59e04b4e"
+    },
+    {
+      "path": "assets/exhibit-recipes.json",
+      "sha256": "d7361778fcd28f052788e586ec29a1562f2c8323c555ca6077f7069a14206a9c"
+    },
+    {
+      "path": "assets/paged-report.html",
+      "sha256": "a2df2a6ca503014d429dee7e84217209755b80631c9a6280cab26c07366dc815"
+    },
+    {
+      "path": "assets/report-examples/decision-en.json",
+      "sha256": "98c2e1c54a9d3dabee92a9456e68aa7b3f41268f6b96fa9e32e41c6ad029d199"
+    },
+    {
+      "path": "assets/report-examples/decision-ko.json",
+      "sha256": "d009f8c139cc4c5653c57a140cc213dfd79a2461ac5ee2ec4248d98edbd87088"
+    },
+    {
+      "path": "assets/report-examples/reference-en.json",
+      "sha256": "b010d8d81a67d369891a3645dc9d75d9cb09f5ff095979cf66dc5f1cd73e5464"
+    },
+    {
+      "path": "assets/report-examples/reference-ko.json",
+      "sha256": "258862a87ab8765f5ff909ae8b11c87f5ea66d6033c458eca9ec37972e3d4723"
+    },
+    {
+      "path": "assets/report-examples/research-en.json",
+      "sha256": "454d1b2b98e55fdcef006dc9c0ea96a5627b4597afb554a819dba725218477bc"
+    },
+    {
+      "path": "assets/report-examples/research-ko.json",
+      "sha256": "b575f2942d832b2e40b2ce9cee942a5099a1042fc09c112f201c30c791186331"
+    },
+    {
+      "path": "assets/report-model.example.json",
+      "sha256": "d3a22eb264a1abe419b2951e58eaa4e9f73104a8a2791a6062b87c0a8bd6439b"
+    },
+    {
+      "path": "assets/research-handoff.example.json",
+      "sha256": "25e4b4f4574f95f02ebf8b9e3611d3282eda81cc3612816415fd53ff2fbdc075"
+    },
+    {
+      "path": "reference/document-pdf.md",
+      "sha256": "00fdad3de5234142eb850f68d42871743d3e5201481cf350f5907104cc5665d2"
+    },
+    {
+      "path": "reference/exhibit-recipes.md",
+      "sha256": "306d85be79b061ea23a83449e6bd160df6841c9ad4c84d4dc21944d371772985"
+    },
+    {
+      "path": "reference/html-templates.md",
+      "sha256": "51f25a49404de4b366c49516193d1bd7983c270ad5c67e223ca7f30cb61c3498"
+    },
+    {
+      "path": "reference/page-role-catalog.md",
+      "sha256": "78edfdebb4793d544f416b83658a36a2b309c5274d9f3ce66e0a01318c55d1f4"
+    },
+    {
+      "path": "reference/port-maintenance.md",
+      "sha256": "3bac1bf4ffb01db99963374e9987a4675a8c51834f7cedd6f4a14c6e9b92a422"
+    },
+    {
+      "path": "reference/print-provenance.md",
+      "sha256": "c7f0909b845b17922fae63f936e3e52d4b2fa29e59428418e646a00f55734080"
+    },
+    {
+      "path": "reference/reader-documents.md",
+      "sha256": "3e4c38cf0d105f13ceaf0b2a83d5418469bf5ae9739b260553369b077c544bcc"
+    },
+    {
+      "path": "reference/report-writing.md",
+      "sha256": "d7daada6cf6a88100953b3ac63847f8792e5e9d3eb16a475d016c939775fa0b6"
+    },
+    {
+      "path": "reference/source-patterns.md",
+      "sha256": "1018ee25acee622dd6b21eaf908e682c3d5a23dc5e76eb1ec0e152c3be1ae50d"
+    },
+    {
+      "path": "reference/svg-and-interaction.md",
+      "sha256": "e16944dfbd580c2727a347c2ecd62efa475907ebe93b117a36d7c89c540f0705"
+    },
+    {
+      "path": "reference/visual-design.md",
+      "sha256": "06b28950ec0fc8af717904601c4229b185c1e763079c4743c1ced307bdd0ee6a"
+    },
+    {
+      "path": "scripts/exhibit-contract.mjs",
+      "sha256": "aae1945f2926255f7d78bd5f97326ac6162ad8a18dd9b33db952a78e5ab5b147"
+    },
+    {
+      "path": "scripts/export-paged-report.mjs",
+      "sha256": "1907baac0a0cc7f11e59b524fb996f8ff1033c38627fd1ce048cbe3e058513b4"
+    },
+    {
+      "path": "scripts/quality-gate.mjs",
+      "sha256": "96aeb54050a66031702747f46a78697b7c75649b04b5fa55649784bfd412550b"
+    },
+    {
+      "path": "scripts/report-contract.mjs",
+      "sha256": "ba095e52e0a608cf055879586547d2b884162476e6d5d37e130c826049c624a7"
+    },
+    {
+      "path": "scripts/report-intake.mjs",
+      "sha256": "caf486a6cfebfcdbf8305b4ff609163d1f9450de10af5806d7f5f756b061801e"
+    },
+    {
+      "path": "scripts/report-locale.mjs",
+      "sha256": "92e2184968b7da493db597ed1c2131cf14bd35bdf85fadb6fdad280340fc65a1"
+    },
+    {
+      "path": "scripts/research-adapter.mjs",
+      "sha256": "b8fb2e8244720c5be4c2eb672e8e8851571c430a139d876351af59f60943bb16"
+    }
+  ],
+  "adaptedFiles": [
+    {
+      "path": "SKILL.md",
+      "reason": "Aside host delivery and repository-relative commands; shared behavior retained"
+    },
+    {
+      "path": "reference/environment-detection.md",
+      "reason": "Aside host delivery and repository-relative commands; shared behavior retained"
+    },
+    {
+      "path": "reference/no-chrome-pdf-export.md",
+      "reason": "Aside host delivery and repository-relative commands; shared behavior retained"
+    },
+    {
+      "path": "reference/report-pipeline.md",
+      "reason": "Aside host delivery and repository-relative commands; shared behavior retained"
+    },
+    {
+      "path": "reference/english-authoring.md",
+      "reason": "Aside host delivery and repository-relative commands; shared behavior retained"
+    },
+    {
+      "path": "assets/aside-generation-metadata.json",
+      "reason": "Explicit consumer version and Aside adapter identity; no inferred installed skill version"
+    },
+    {
+      "path": "scripts/capture-pdf.codemode.js",
+      "reason": "Preserved Aside capture API; explicit A4 and portable CLI placeholder without personal account path"
+    }
+  ],
+  "preservedFiles": [
+    "scripts/diagram-to-html.sh",
+    "reference/visualize-contract.md"
+  ],
+  "evidence": {
+    "upstreamFocusedTests": 235,
+    "upstreamFullTests": 3480,
+    "downstreamCommands": [
+      "node --test test/*.test.mjs",
+      "node scripts/report-intake.mjs assets/research-handoff.example.json"
+    ]
+  }
+}

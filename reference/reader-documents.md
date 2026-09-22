@@ -1,25 +1,14 @@
-# Reader documents — structure for people who were not in the loop
+# Reader documents — portable contract
 
-Canonical owner of reader-facing document structure (READER-DOC-01..05). Other
-skills point here; they do not restate it. These are agent-followed rules, not
-runtime gates.
-
-## When this applies
-
-Anything a person reads to understand or decide: reports, explainers, visual
-documents, research reports, PR descriptions, the reader summary at the top of a
-devlog `000_plan.md`, and D-phase summaries. It does not apply to audit artifacts
-(receipts, ledgers, probe logs, test output, journals): those keep their raw form
-and are linked from the document, never rewritten into prose.
-
-The failure this prevents: an agent that ran twelve probes writes a document that
-lists the twelve probes. The reader wanted the answer, the reason to believe it,
-and what to do next. The probes belong in an appendix.
+**Canonical owner:** `cxc-dev` `references/reader-documents.md` (READER-DOC-01..05).
+This is a portable restatement carried inside the skill so `dev-visualizer` resolves
+standalone when copied without its siblings (issue #183). When the two disagree, the
+canonical file wins; a packaging test checks the rule headings still match.
 
 ## READER-DOC-01 Reader contract (DEFAULT)
 
-Before drafting, write one line: **who reads this, what they decide or do after
-reading, what they already know.** Then pick one document type and keep to it:
+Before drafting, write one line: **who reads this, what they decide or do after reading,
+what they already know.** Then pick one document type and keep to it.
 
 | Type | Reader question | Shape |
 |---|---|---|
@@ -33,97 +22,49 @@ Mixing types in one document degrades all of them; split instead.
 
 ## READER-DOC-02 Answer first (DEFAULT)
 
-Open with the situation, the complication, the question and the answer (SCQA) in
-one short paragraph; the governing conclusion appears before any evidence. Every
-heading below it states a claim, not a topic ("Cost drops 12% under the selected
-scenario", not "Analysis"). Korean documents use 두괄식: 결론·전망·요약을 맨 앞에.
-Answer-first does not mean the sections may be a flat list of findings: after the
-answer, the sections still walk the reader from the situation they accept to the
-decision being asked (the storyline in `dev-visualizer/reference/report-writing.md`
-REPORT-STORY-01). What reports avoid is the narrative 기승전결 that withholds the
-conclusion until the end, not the progression itself.
+Open with the situation, complication, question and answer in one short paragraph; the
+governing conclusion appears before any evidence. Korean documents use 두괄식.
+
+Every heading carries what its section establishes, never a bare topic label. In a
+decision document or an explanation that is a claim, and the sections walk the reader
+from what they accept to what is being asked; what those documents avoid is the
+narrative that withholds the conclusion until the end, not the progression itself.
+
+**The genre decides whether there is an ask at all.** A research synthesis ends at what
+remains unresolved, a history at what is contested, a reference at the definitions —
+where a topic label is correct rather than a defect. Forcing any of them to close on a
+requested decision spends uncertainty the evidence did not earn. The genre table lives
+in `report-writing.md` REPORT-STORY-00.
 
 ## READER-DOC-03 Descending structure (DEFAULT)
 
-Sections descend from the answer: each heading is a summary of what is under it,
-siblings do not overlap and together cover the question, and their order follows
-the reader's questions rather than the order the work happened. Include a table
-of contents once the document exceeds about one screen. Decision documents
-also carry three sections writers omit: **non-goals**, **alternatives considered**
-with the reason each was rejected, and **consequences or costs** of the choice.
-Small changes get a short document; do not inflate a one-paragraph decision.
+Sections descend from the answer: each heading summarises what is under it, siblings do
+not overlap and together cover the question, and their order follows the reader's
+questions rather than the order the work happened. Add a table of contents past about one
+screen. Decision documents also carry the three sections writers omit — **non-goals**,
+**alternatives considered** with why each was rejected, and **consequences or costs**.
+A one-paragraph decision stays one paragraph.
 
 ## READER-DOC-04 Evidence separated and anchored (STRICT for factual claims)
 
-Probes, commands, receipts, screenshots, and logs go to an appendix, an evidence
-section or a linked ledger. The narrative cites them by anchor. Every factual
-claim in the narrative resolves to one of: an evidence anchor, a source URL with
-its date, or a stated assumption. A claim with none of these is removed or labeled
-as unverified. Do not paste a command transcript where the reader expects a
-conclusion; do not summarize away the evidence either. Both live in the document,
-in their own places.
+Probes, commands, receipts, screenshots and logs go to an appendix, an evidence section
+or a linked ledger; the narrative cites them by anchor. Every factual claim resolves to
+an evidence anchor, a source URL with its date, or a stated assumption. A claim with none
+of those is removed or labelled unverified. Do not paste a transcript where the reader
+expects a conclusion, and do not summarise the evidence away either.
 
-## READER-DOC-05 Fresh-reader check (DEFAULT for C2+; STRICT for user-delivered reports)
+## READER-DOC-05 Fresh-reader check (DEFAULT for C2+; STRICT for delivered reports)
 
-An agent or subagent with no task context reads the draft and answers three
-questions in its own words: what is the answer, why should I believe it, what do
-I do next. Where it stumbled, fix the structure. Record the check (who read,
-where they stumbled, what changed) in the evidence section. A reader who has to
-read the document twice has found a defect in the document.
+A reader with no task context answers three questions in their own words: what is the
+answer, why should I believe it, what do I do next. Fix the structure wherever they
+stumbled, and record the check. A reader who has to read the document twice has found a
+defect in the document.
 
-For a rendered deliverable (PDF, paged HTML, slides) the fresh reader reads the
-rendered pages as images, not the source, so that page breaks, stranded headings,
-unreadable figure text and half-empty pages are seen the way the recipient sees
-them. Add two questions: which page made you stop, and which visual elements look
-like a generated template (cards, tinted boxes, numbered circles, box-and-arrow
-figures). Structure fixes come first; layout fixes follow (REPORT-* rules in
-`dev-visualizer`).
+For a rendered deliverable the fresh reader reads the **rendered pages as images**, not
+the source, so page breaks, stranded headings and clipped figures are visible.
 
-## Skeletons
+## Portability note
 
-Report or explainer:
-
-```markdown
-# <Claim-shaped title>
-<SCQA paragraph ending with the answer>
-## Contents            (when longer than one screen)
-## <Claim 1>           supporting reasoning, figure with a caption that states what changes
-## <Claim 2>
-## What this does not cover / limits
-## Next steps          who does what
-## Appendix: evidence  A1..An anchors; commands, receipts, screenshots, sources with dates
-```
-
-Decision record (MADR-shaped):
-
-```markdown
-# <Decision as a sentence>
-Status · Date · Deciders
-## Context and problem
-## Decision drivers
-## Options considered   each with pros, cons, why rejected
-## Decision
-## Consequences         good, bad, follow-ups
-```
-
-Visual explainer: question → one figure whose caption states what changes and why
-→ detail on demand → sources. Composition and rendering rules stay with
-`dev-visualizer`.
-
-Multi-page report (cover, contents, one-page summary, claim headings, numbered
-exhibits, appendix, notice): the REPORT-* rules and the paged template in
-`dev-visualizer/reference/report-writing.md` and `assets/paged-report.html`.
-
-## Layer order for polish
-
-Structure first (this reference), sentences second. Korean sentence polish is
-`kwrite`; general output hygiene is `dev` FAMILY-SLOP-01. Limit a revision to one
-or two structural interventions; a document that is rearranged wholesale on every
-pass loses the reader's map.
-
-## Sources
-
-Patterns adopted from opened sources with dates and licenses:
-`devlog/_plan/260908_narrative_documents/001_sources.md` (Minto Pyramid/SCQA and
-MECE, Korean 두괄식 guidance, Amazon narrative memos, Google design docs, MADR,
-Diátaxis, Anthropic doc-coauthoring, executive-summary skills). No text is vendored.
+This file exists so the skill has no required dependency outside its own root. It is
+deliberately a restatement rather than a copy: the canonical file carries repository-only
+ledger pointers and cross-references that do not resolve for a standalone consumer.
