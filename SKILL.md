@@ -1,20 +1,23 @@
 ---
 name: dev-visualizer
-description: "Create well-composed visual documents, HTML reports, SVG diagrams, charts, interactive explainers and PDF deliverables. Use for visualize, visual explanations, architecture diagrams, comparison reports, infographics, document creation, 시각화, 그려줘, 문서 만들어줘, 보고서, PDF 생성. Preserve explicit formats and templates; text-only requests and ordinary code changes do not need a visual. A simple inline or static artifact ships without a render round trip; rendered proof is for computed and exported output."
+description: "Create well-composed visual documents, HTML reports, SVG diagrams, charts, interactive explainers and PDF deliverables. Use for visualize, visual explanations, architecture diagrams, comparison reports, infographics, document creation, 시각화, 그려줘, 문서 만들어줘, 보고서, PDF 생성. Preserve explicit formats and templates; text-only requests and ordinary code changes do not need a visual. Routes between Aside's inline `visual` chat blocks (/visualize) and durable HTML/SVG/PDF artifacts, and promotes an inline visual to a file on request. Simple static output ships after source review; rendered proof is for computed and exported output."
 metadata:
-  last-verified: "2026-09-22"
-  short-description: "Visual documents, SVG/HTML explainers and PDF delivery, verified in proportion."
-  keywords: [diagram, visualization, visualize, document, report, SVG, HTML, PDF, interactive, cover, contents, storyline]
+  last-verified: "2026-10-08"
+  short-description: "Inline visuals, visual documents, SVG/HTML explainers and PDF delivery, verified in proportion."
+  keywords: [diagram, visualization, visualize, /visualize, inline visual, document, report, SVG, HTML, PDF, interactive, cover, contents, storyline, 인라인 시각화]
 ---
 
 # Visual documents — compose, render, deliver
 
 Turn the reader's question and supplied facts into a useful visual artifact.
-This is the Aside account-skill port of codexclaw's shared visualizer. Aside delivers
-standalone HTML/SVG/PDF files under the session artifacts directory, not inline HTML
-fragments. Simple static files require source review only. Computed or exported
-output uses the proportionate verification route below; browser availability alone
-does not impose a render step. Available format-specific Aside skills own document mechanics.
+This is the Aside account-skill port of codexclaw's shared visualizer. Aside has two
+delivery surfaces: an inline `visual` code block that its built-in `visualize` skill
+renders in the chat, and standalone HTML/SVG/PDF files under the session artifacts
+directory. The built-in skill owns inline mechanics; this skill decides the route,
+keeps the composition honest and promotes inline visuals to files
+([Aside inline visuals](reference/aside-inline-visual.md)). Simple static output
+requires source review only. Computed or exported output uses the proportionate
+verification route below. Available format-specific Aside skills own document mechanics.
 
 Shared maintenance is upstream-first: fix/verify codexclaw, adapt/verify this port,
 then close the downstream issue. See [port workflow](reference/port-maintenance.md).
@@ -43,7 +46,8 @@ focused explanation. Neither phrase grants permission to publish or install.
 
 | Requested result | Authoring route | Read when selected |
 |---|---|---|
-| In-conversation comparison, simulation or explainer | Standalone artifact; source review for simple static output, actual execution for computed output | [delivery](reference/environment-detection.md) |
+| In-conversation comparison, simulation or explainer | Aside built-in `visualize`: one `visual` code block in the reply (ASIDE-INLINE-01); a file only when the route table there says so | Current built-in `visualize/SKILL.md` in full, then [Aside inline visuals](reference/aside-inline-visual.md) |
+| Keep, share, print or export something shown inline | Promote the inline page to an artifact with fallback theme tokens | [Aside inline visuals](reference/aside-inline-visual.md) promotion steps; [delivery](reference/environment-detection.md) |
 | Small static structure expressible as labeled nodes/edges | Mermaid if host supports it; otherwise a suitable artifact | [SVG and interaction](reference/svg-and-interaction.md) only for custom output |
 | Editable SVG diagram or infographic | Native SVG with legible geometry and text | [Visual design](reference/visual-design.md), [SVG and interaction](reference/svg-and-interaction.md) |
 | HTML report, technical brief, visual review or document | Semantic HTML with purposeful figures and readable sections | [Reader documents](reference/reader-documents.md), [Visual design](reference/visual-design.md), [documents/PDF](reference/document-pdf.md) |
@@ -99,15 +103,20 @@ Examples of structure that earns its form:
   it. Cover and contents pages are part of the document, not decoration.
 - For a dense system, use overview plus focused detail rather than shrinking every label.
 
-Keep document narrative in the document. Inline conversation visuals instead obey
-the host's narrower composition contract; do not paste a whole report into a fragment.
+Keep document narrative in the document. Inline `visual` blocks instead obey
+the host's narrower composition contract (one idea, host theme tokens, fluid
+320–760 px frame); do not paste a whole report into a block. A report artifact can
+carry one inline summary exhibit in the reply alongside its file link.
 
 ## Build the smallest complete artifact
 
 Use semantic, editable source. Keep text-bearing HTML in normal responsive Grid/Flex
 flow; derive SVG connector endpoints from rendered bounds if needed
-(**DIAGRAM-LAYOUT-01**). Standalone SVG is a vector document: geometric coordinates
-are appropriate, but size/wrap labels from actual text metrics and inspect the result.
+(**DIAGRAM-LAYOUT-01**). Paint connectors before labels they pass behind. A label
+placed on a connector needs a paper-coloured halo with `paint-order: stroke`, or
+it must move clear; a halo cannot cover a connector painted later. Standalone SVG
+is a vector document: geometric coordinates are appropriate, but size/wrap labels
+from actual text metrics and inspect the result.
 
 [editorial-report.html](assets/editorial-report.html) is an optional original,
 dependency-free example for reports with a live scenario and print output. Adapt
@@ -144,7 +153,8 @@ Spend the round trip where the visible result is computed rather than written.
 
 | Delivering | Before delivery |
 |---|---|
-| An inline visual in this conversation, or a fenced diagram the host renders | Reread the source once and send it. The reader's screen is the render. |
+| An inline `visual` block containing only a simple static table, no script | Reread the source once and send it. The reader's screen is the render. |
+| Any other inline `visual` block, including static stat rows, charts and diagrams | The host skill's scratch-tab preview (about 728 and 380 px, error probe) before replying; exercise the primary control when present. The host contract outranks the codexclaw tier here. |
 | A small static HTML/SVG page in ordinary flow — prose, tables, hand-placed shapes, no runtime data, no library, no export | Reread the source, save it, return the link. |
 | Anything whose visible result is computed — marks drawn from data, connector geometry derived from rendered bounds, a runtime library or webfont, an input that changes the output | DIAGRAM-RENDER-VERIFY-01 in full. |
 | PDF, print output, or a multi-page paged report | DIAGRAM-RENDER-VERIFY-01 with a stated assurance profile. Merely saving or sharing a simple static HTML/SVG file does not promote it to this tier. |
@@ -161,6 +171,12 @@ screenshot/page, fix clipping, collisions, empty charts and runtime errors. Insp
 the longest labels at narrow and wide widths appropriate to the artifact; for
 responsive HTML include 320/736px and the intended desktop size. SVG text must remain
 legible at its intended display/export sizes, not merely within a valid viewBox.
+
+The paged-report exporter may run a bounded `--dump-dom` SVG crossing diagnostic
+on the final filled HTML. It is supplementary P2 review evidence: a crossing is
+a review finding, while a timeout, malformed result, or sampling cap is recorded
+in `report.notes` and does not change the PDF verdict; the PDF page remains the
+authority for print inspection.
 
 For interaction, change the primary input and observe the resulting marks/values;
 exercise keyboard access and reset when provided. A static screenshot is not
@@ -193,11 +209,16 @@ adding ARIA does not establish accessibility conformance either way.
 
 Save deliverables to the session artifacts directory named by the current Aside host.
 Use its temporary directory for disposable QA, not durable deliverables. Return a clickable
-absolute file link for a requested standalone artifact. Use the current host's exact
-content-reference contract for inline output. Only say it opened, rendered, exported
-or published when that outcome was observed. Describe the useful result concisely.
+absolute file link for a requested standalone artifact. Inline output is a `visual`
+fenced block in the reply text, never announced or restated in prose; in a channel
+conversation where blocks are dropped, attach a preview screenshot or a file instead.
+Only say it opened, rendered, exported or published when that outcome was observed.
+Describe the useful result concisely.
 
 [Source patterns](reference/source-patterns.md) records the GitHub references,
 observed dates, licensing and adopted/rejected ideas. Read it when borrowing further
-material or refreshing the skill, not for every small diagram. Existing
-`reference/visualize-contract.md` is historical codex provenance, not an Aside renderer. The current exposed host skill wins; a snapshot cannot grant renderer support.
+material or refreshing the skill, not for every small diagram.
+`upstream/aside-visualize-upstream.md` records the last inspected hash of Aside's
+built-in `visualize` skill; `node upstream/sync-check.mjs` reports drift.
+`reference/visualize-contract.md` keeps the codex-host history. The current exposed
+host skill wins; a snapshot cannot grant or remove renderer support.

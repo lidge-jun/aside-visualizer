@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "upstream": {
     "repository": "lidge-jun/codexclaw",
-    "sourceSha": "9d32c389f98da74d147ec6726b97a6f972760414",
+    "sourceSha": "96e8d5ce51aed862761e335249b3225fa38c0251",
     "path": "plugins/codexclaw/skills/dev-visualizer"
   },
   "sharedFiles": [
@@ -17,7 +17,7 @@
     },
     {
       "path": "assets/paged-report.html",
-      "sha256": "a2df2a6ca503014d429dee7e84217209755b80631c9a6280cab26c07366dc815"
+      "sha256": "d29e1e567f4ffc9b9c1285d2c4e232aaf9ec305dd489d70b4a8aacb1941a0ce4"
     },
     {
       "path": "assets/report-examples/decision-en.json",
@@ -73,7 +73,7 @@
     },
     {
       "path": "reference/print-provenance.md",
-      "sha256": "c7f0909b845b17922fae63f936e3e52d4b2fa29e59428418e646a00f55734080"
+      "sha256": "47e17dbe93e3627e15e64974ddc7c4b06d45aefccef7e9cb9c5bbd9bd436fcdd"
     },
     {
       "path": "reference/reader-documents.md",
@@ -101,7 +101,7 @@
     },
     {
       "path": "scripts/export-paged-report.mjs",
-      "sha256": "1907baac0a0cc7f11e59b524fb996f8ff1033c38627fd1ce048cbe3e058513b4"
+      "sha256": "d2529b38f452001872ec98f31cdc5b4afd300b086c9f8901e9b404ac83aeba40"
     },
     {
       "path": "scripts/quality-gate.mjs",
@@ -127,11 +127,11 @@
   "adaptedFiles": [
     {
       "path": "SKILL.md",
-      "reason": "Aside host delivery and repository-relative commands; shared behavior retained"
+      "reason": "Aside host delivery: inline `visual` block via the built-in visualize skill plus artifact files; repository-relative commands; shared behavior retained"
     },
     {
       "path": "reference/environment-detection.md",
-      "reason": "Aside host delivery and repository-relative commands; shared behavior retained"
+      "reason": "Aside host delivery: inline `visual` block via the built-in visualize skill plus artifact files; repository-relative commands; shared behavior retained"
     },
     {
       "path": "reference/no-chrome-pdf-export.md",
@@ -139,11 +139,11 @@
     },
     {
       "path": "reference/report-pipeline.md",
-      "reason": "Aside host delivery and repository-relative commands; shared behavior retained"
+      "reason": "Upstream stability, diagnostic, and print-verification semantics retained; repository-relative commands and downstream port-parity test replace upstream packaging test"
     },
     {
       "path": "reference/english-authoring.md",
-      "reason": "Aside host delivery and repository-relative commands; shared behavior retained"
+      "reason": "Upstream language and locale rules retained; authoring commands use repository-relative scripts and assets"
     },
     {
       "path": "assets/aside-generation-metadata.json",
@@ -152,18 +152,50 @@
     {
       "path": "scripts/capture-pdf.codemode.js",
       "reason": "Preserved Aside capture API; explicit A4 and portable CLI placeholder without personal account path"
+    },
+    {
+      "path": "reference/aside-inline-visual.md",
+      "reason": "Aside-only: routes in-chat visuals to the built-in visualize `visual` block, inline composition rules and inline-to-artifact promotion"
+    },
+    {
+      "path": "upstream/aside-visualize-upstream.md",
+      "reason": "Aside-only: inspection record (hash/date/contract points) of the Aside built-in visualize skill"
+    },
+    {
+      "path": "upstream/sync-check.mjs",
+      "reason": "Aside-only: cross-platform drift check of installed built-in visualize copies against the record"
+    },
+    {
+      "path": "reference/visualize-contract.md",
+      "reason": "Delegation contract updated for the Aside built-in visualize skill; codex-host 1.0.29 history retained"
+    },
+    {
+      "path": "reference/aside-field-notes.md",
+      "reason": "Aside-only: dated X/MIT-reference observations behind the inline route rules"
     }
   ],
   "preservedFiles": [
-    "scripts/diagram-to-html.sh",
-    "reference/visualize-contract.md"
+    "scripts/diagram-to-html.sh"
   ],
   "evidence": {
-    "upstreamFocusedTests": 235,
-    "upstreamFullTests": 3480,
     "downstreamCommands": [
       "node --test test/*.test.mjs",
       "node scripts/report-intake.mjs assets/research-handoff.example.json"
-    ]
+    ],
+    "upstreamVerification": {
+      "status": "not-run",
+      "reason": "Upstream cache byte parity confirmed; upstream suites not executed in this local port task",
+      "cacheSkillFiles": 38
+    },
+    "downstreamTests": {
+      "total": 249,
+      "passed": 248,
+      "skipped": 1,
+      "failed": 0
+    },
+    "reportIntake": {
+      "status": "passed",
+      "issues": 0
+    }
   }
 }
