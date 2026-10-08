@@ -153,8 +153,8 @@ Spend the round trip where the visible result is computed rather than written.
 
 | Delivering | Before delivery |
 |---|---|
-| An inline `visual` block that is a static table, stat row or hand-placed shapes with no script | Reread the source once and send it. The reader's screen is the render. |
-| An inline `visual` block with script, computed geometry, a library, animation or controls | The host skill's scratch-tab preview (about 728 and 380 px, error probe) before replying; the host contract outranks the codexclaw tier here. |
+| An inline `visual` block containing only a simple static table, no script | Reread the source once and send it. The reader's screen is the render. |
+| Any other inline `visual` block, including static stat rows, charts and diagrams | The host skill's scratch-tab preview (about 728 and 380 px, error probe) before replying; exercise the primary control when present. The host contract outranks the codexclaw tier here. |
 | A small static HTML/SVG page in ordinary flow — prose, tables, hand-placed shapes, no runtime data, no library, no export | Reread the source, save it, return the link. |
 | Anything whose visible result is computed — marks drawn from data, connector geometry derived from rendered bounds, a runtime library or webfont, an input that changes the output | DIAGRAM-RENDER-VERIFY-01 in full. |
 | PDF, print output, or a multi-page paged report | DIAGRAM-RENDER-VERIFY-01 with a stated assurance profile. Merely saving or sharing a simple static HTML/SVG file does not promote it to this tier. |

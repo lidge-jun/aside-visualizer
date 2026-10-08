@@ -10,7 +10,7 @@ rendering or PDF export.
 | Requested output | Delivery and proof |
 |---|---|
 | Markdown answer | Return Markdown; no visual is required |
-| In-chat explanation, comparison or small chart | Inline `visual` block; static blocks get a source reread, scripted or computed blocks get the host's scratch-tab preview |
+| In-chat explanation, comparison or small chart | Inline `visual` block; only a simple static table may ship after source reread alone. Preview every other visual using the host's scratch-tab recipe |
 | Simple static HTML/SVG file in ordinary flow | Reread source, save to artifacts, return link; no mandatory browser round trip |
 | Computed or interactive file | Execute in the available browser, observe the affected state and fix actual defects |
 | Inline visual the user wants to keep, share or print | Promote to an artifact with fallback theme tokens; a printed promotion is in the PDF tier |

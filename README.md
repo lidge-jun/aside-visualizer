@@ -18,8 +18,9 @@ Two Aside-specific differences from the codexclaw original:
 ## Install
 
 ```bash
-# <N> is your Aside account slot; match it by userId in ~/.aside/accounts.json
-DEST=~/.aside/u/<N>/skills/user/dev-visualizer
+# Replace N with your account slot, matched by userId in ~/.aside/accounts.json
+N=0
+DEST="$HOME/.aside/u/$N/skills/user/dev-visualizer"
 mkdir -p "$DEST"
 cp -R SKILL.md LICENSE port-manifest.json assets reference scripts upstream "$DEST"/
 node "$DEST"/upstream/sync-check.mjs   # optional: built-in visualize drift check

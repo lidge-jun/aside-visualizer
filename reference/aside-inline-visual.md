@@ -46,9 +46,17 @@ carry over.
 - **INLINE-TRUTH-01.** Embed only gathered or user-supplied data, with units,
   date and source in a muted caption line. Mark illustrative data as such.
   Pick encodings that do not exaggerate: zero-based bars, the same scale for
-  compared panels, axes that do not invent a gap between categories. An
-  attractive diagram that misstates the shape of the data is a defect, not a
-  style choice.
+  compared panels, axes that do not invent a gap between categories. Do not
+  join categorical values with a curve, interpolate troughs between measured
+  categories, or reorder categories to manufacture a shape; use dots or bars.
+  A schematic without measured geometry says so ("concept diagram, not to
+  scale"). An attractive diagram that misstates the shape of the data is a
+  defect, not a style choice.
+- **INLINE-STATE-01.** Define data, derived values and the selected state once
+  and compute every mark, value label and caption sentence from it, so the
+  picture, the numbers and the words cannot disagree. Check a control at both
+  ends and the middle. Arrows assert causality or flow; draw one only where the
+  source evidence supports that direction.
 - **INLINE-ANSWER-01.** One idea per visual. Put the insight on the chart
   (reference line, marker, direct label), keep the reply text for what the
   visual cannot say, and do not restate its numbers in prose.
@@ -72,7 +80,11 @@ carry over.
 
 Libraries from a CDN load as-is, but hand-built HTML/CSS/SVG matches the
 theme without overriding stock styling. If a library is used, restyle its
-fonts, ticks, grid and legend to the host tokens.
+fonts, ticks, grid and legend to the host tokens. Do not promise maths (LaTeX)
+or other rendering that has not been verified in the frame.
+
+Field notes behind these rules (X posts and MIT references, observed
+2026-10-08) are in [Aside field notes](aside-field-notes.md).
 
 ## Verify in proportion
 
@@ -82,8 +94,8 @@ after a source reread. Concretely:
 
 | Inline visual | Before replying |
 |---|---|
-| Static table, stat row, hand-placed boxes, no script | Reread the source once |
-| Any script, computed geometry, `ResizeObserver`, library, animation or interaction | Host preview recipe: `about:blank` + preview theme + error probe, screenshots at about 728 px and 380 px, read `window.__errors`; exercise the primary control once |
+| Simple static table, no script | Reread the source once |
+| Anything beyond a simple table, including static stat rows, charts and diagrams, or any script, library, animation or interaction | Host preview recipe: `about:blank` + preview theme + error probe, screenshots at about 728 px and 380 px, read `window.__errors`; exercise the primary control when present |
 | A defect was reported or seen | Render every further fix before sending |
 
 The preview theme block is for the scratch tab only and must never ship in
@@ -101,15 +113,17 @@ When the user asks to keep, share, print or export what was shown inline:
 
    ```html
    <style>
-   :root{color-scheme:light dark;--background:#fff;--foreground:#171717;--muted-foreground:rgba(23,23,23,.6);--muted:rgba(23,23,23,.06);--surface-primary:rgba(23,23,23,.04);--surface-secondary:rgba(23,23,23,.03);--border:rgba(23,23,23,.12);--primary:#171717;--primary-foreground:#fff;--brand:#0284c7;--success:#059669;--destructive:#dc2626;--chart-1:#0284c7;--chart-2:#0d9488;--chart-3:#d97706;--chart-4:#9333ea;--chart-5:#e11d48;--chart-6:#65a30d;--radius:.625rem;--font-sans:system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;--font-mono:ui-monospace,Menlo,monospace}
-   @media (prefers-color-scheme:dark){:root{--background:#171717;--foreground:#fafafa;--muted-foreground:rgba(250,250,250,.55);--muted:rgba(250,250,250,.15);--surface-primary:rgba(250,250,250,.08);--surface-secondary:rgba(250,250,250,.06);--border:rgba(250,250,250,.1);--primary:rgba(250,250,250,.85);--primary-foreground:#171717;--brand:#38bdf8;--chart-1:#38bdf8;--chart-2:#2dd4bf;--chart-3:#fbbf24;--chart-4:#c084fc;--chart-5:#fb7185;--chart-6:#a3e635}}
+   :root{color-scheme:light dark;--background:#fff;--foreground:#171717;--muted-foreground:rgba(23,23,23,.6);--muted:rgba(23,23,23,.06);--surface-primary:rgba(23,23,23,.04);--surface-secondary:rgba(23,23,23,.03);--border:rgba(23,23,23,.12);--primary:#171717;--primary-foreground:#fff;--input:rgba(23,23,23,.12);--ring:#0284c7;--secondary:rgba(23,23,23,.06);--secondary-foreground:#171717;--accent:rgba(23,23,23,.08);--accent-foreground:#171717;--popover:#fff;--popover-foreground:#171717;--brand:#0284c7;--success:#059669;--destructive:#dc2626;--chart-1:#0284c7;--chart-2:#0d9488;--chart-3:#d97706;--chart-4:#9333ea;--chart-5:#e11d48;--chart-6:#65a30d;--radius:.625rem;--font-sans:system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;--font-mono:ui-monospace,Menlo,monospace}
+   @media (prefers-color-scheme:dark){:root{--background:#171717;--foreground:#fafafa;--muted-foreground:rgba(250,250,250,.55);--muted:rgba(250,250,250,.15);--surface-primary:rgba(250,250,250,.08);--surface-secondary:rgba(250,250,250,.06);--border:rgba(250,250,250,.1);--primary:rgba(250,250,250,.85);--primary-foreground:#171717;--input:rgba(250,250,250,.1);--ring:#38bdf8;--secondary:rgba(250,250,250,.06);--secondary-foreground:#fafafa;--accent:rgba(250,250,250,.08);--accent-foreground:#fafafa;--popover:#171717;--popover-foreground:#fafafa;--brand:#38bdf8;--chart-1:#38bdf8;--chart-2:#2dd4bf;--chart-3:#fbbf24;--chart-4:#c084fc;--chart-5:#fb7185;--chart-6:#a3e635}}
    html{background:var(--background);color:var(--foreground);font:14px/1.5 var(--font-sans)}body{margin:0 auto;max-width:760px;padding:24px}
    </style>
    ```
 
 3. Replace absolute session image paths with files copied next to the HTML
    (or data URLs) so the file works after the session folder is cleaned.
-4. For PDF, add `@page` size and print rules, then follow
+4. A printed or PDF promotion is a frozen snapshot: state the selected
+   scenario/control values and the data date on the page.
+5. For PDF, add `@page` size and print rules, then follow
    [documents/PDF](document-pdf.md) and the
    [no-Chrome export route](no-chrome-pdf-export.md); a promoted visual is in
    the exported tier and gets the full DIAGRAM-RENDER-VERIFY-01 pass.
@@ -125,5 +139,6 @@ key exhibit rebuilt on host tokens, plus the absolute artifact path.
 - `http(s)` links open in a new tab. `file://` URLs and files outside the
   session folder do not load.
 - This file summarises the host contract inspected on the date recorded in
-  the upstream tracking file. If the live host skill differs, follow it and
-  refresh the record with `node upstream/sync-check.mjs`.
+  the upstream tracking file. Run `node upstream/sync-check.mjs` to detect
+  drift. If the live host skill differs, follow it, inspect the changes,
+  and manually update this reference and the inspection record.

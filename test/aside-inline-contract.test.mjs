@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, writeFileSync, rmSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -38,18 +38,25 @@ test("promotion fallback tokens define every theme variable the inline guide rel
   const block = guide.match(/```html\n\s*(<style>[\s\S]*?<\/style>)\n\s*```/);
   assert.ok(block, "fallback token block present");
   const css = block[1];
-  for (const name of ["--background", "--foreground", "--muted-foreground", "--muted", "--surface-primary", "--border", "--brand", "--success", "--destructive", "--radius", "--font-sans", "--font-mono", ...[1, 2, 3, 4, 5, 6].map((n) => `--chart-${n}`)]) {
+  for (const name of ["--input", "--ring", "--secondary", "--secondary-foreground", "--accent", "--accent-foreground", "--popover", "--popover-foreground", "--background", "--foreground", "--muted-foreground", "--muted", "--surface-primary", "--border", "--brand", "--success", "--destructive", "--radius", "--font-sans", "--font-mono", ...[1, 2, 3, 4, 5, 6].map((n) => `--chart-${n}`)]) {
     assert.match(css, new RegExp(`${name}:`), name);
   }
   assert.match(css, /prefers-color-scheme:dark/);
 });
 
-test("sync-check reports unavailable, drift and match without network", () => {
+test("sync-check reports unavailable and drift without network", () => {
   const dir = mkdtempSync(join(tmpdir(), "aside-viz-sync-"));
   try {
     const none = spawnSync(process.execPath, [syncCheck], { env: { ...process.env, ASIDE_VISUALIZE_SKILL: "", ASIDE_HOME: join(dir, "missing") }, encoding: "utf8" });
     assert.equal(none.status, 1, none.stdout + none.stderr);
     assert.match(none.stdout, /unavailable/);
+
+    const installed = join(dir, "u", "0", "skills", "builtin", "visualize");
+    mkdirSync(installed, { recursive: true });
+    writeFileSync(join(installed, "SKILL.md"), "different host skill\n");
+    const fallback = spawnSync(process.execPath, [syncCheck], { env: { ...process.env, ASIDE_VISUALIZE_SKILL: "", ASIDE_HOME: dir }, encoding: "utf8" });
+    assert.equal(fallback.status, 2, fallback.stdout + fallback.stderr);
+    assert.match(fallback.stdout, /DRIFT/);
 
     const drifted = join(dir, "SKILL.md");
     writeFileSync(drifted, "different host skill\n");

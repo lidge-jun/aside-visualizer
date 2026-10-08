@@ -168,6 +168,10 @@
     {
       "path": "reference/visualize-contract.md",
       "reason": "Delegation contract updated for the Aside built-in visualize skill; codex-host 1.0.29 history retained"
+    },
+    {
+      "path": "reference/aside-field-notes.md",
+      "reason": "Aside-only: dated X/MIT-reference observations behind the inline route rules"
     }
   ],
   "preservedFiles": [
