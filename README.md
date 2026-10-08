@@ -5,14 +5,25 @@ Aside account-skill port of [codexclaw](https://github.com/lidge-jun/codexclaw)'
 explainers and paged PDF reports. Simple static HTML/SVG ships after source review;
 computed and exported outputs receive proportionate, explicitly recorded checks.
 
-The Aside browser is a Chromium fork, so the headline difference from the
-codexclaw original: **PDF export works with no system Chrome at all**.
+Two Aside-specific differences from the codexclaw original:
+
+- **Inline visuals in chat.** Aside's built-in `visualize` skill (`/visualize`,
+  launched 2026-10-07) renders a `visual` code block inline. This skill decides
+  when to use it versus a file, keeps inline exhibits honest, and promotes an inline
+  visual to a durable HTML/PDF artifact with fallback theme tokens
+  ([reference/aside-inline-visual.md](reference/aside-inline-visual.md)).
+- **PDF export works with no system Chrome at all**, because the Aside browser is a
+  Chromium fork.
 
 ## Install
 
 ```bash
-mkdir -p ~/.aside/u/0/skills/user/dev-visualizer
-cp -R SKILL.md assets reference scripts ~/.aside/u/0/skills/user/dev-visualizer/
+# Replace N with your account slot, matched by userId in ~/.aside/accounts.json
+N=0
+DEST="$HOME/.aside/u/$N/skills/user/dev-visualizer"
+mkdir -p "$DEST"
+cp -R SKILL.md LICENSE port-manifest.json assets reference scripts upstream "$DEST"/
+node "$DEST"/upstream/sync-check.mjs   # optional: built-in visualize drift check
 ```
 
 The skill loads from the next Aside session. Triggers include: visualize,
@@ -23,15 +34,22 @@ The skill loads from the next Aside session. Triggers include: visualize,
 - `reference/reader-documents.md` bundled locally (the original upstream snapshot
   used a sibling-skill path that blocked standalone installs; codexclaw#183 is
   now fixed upstream too).
-- Routing and `reference/environment-detection.md` rewritten for Aside's
-  delivery contract: no inline fragment renderer, deliverables are artifact
-  files verified in the Aside browser.
+- Routing and `reference/environment-detection.md` rewritten for Aside's two
+  delivery surfaces: inline `visual` blocks owned by the built-in `visualize`
+  skill, and artifact files verified in the Aside browser.
+- `reference/aside-inline-visual.md` added: inline-vs-file routing, inline
+  composition rules (truthful encodings, host theme tokens, fluid frame, motion
+  and accessibility), verification tiers reconciled with the host preview recipe,
+  and inline-to-artifact promotion.
 - `reference/no-chrome-pdf-export.md` added: a validated two-pass PDF export
   through Aside's own Chromium (REPL `page.pdf()` + bundled poppler for TOC
   mapping and QA), plus a codemode batch-capture route
   (`scripts/capture-pdf.codemode.js`).
-- codex-only machinery dropped (`upstream/sync-check.sh`); the historical
-  `visualize-contract.md` kept as provenance only.
+- codex-only `upstream/sync-check.sh` replaced by an Aside tracker:
+  `upstream/aside-visualize-upstream.md` records the inspected hash of the
+  built-in `visualize` skill and `upstream/sync-check.mjs` reports drift
+  (exit 0 match, 2 drift, 1 unavailable). `visualize-contract.md` now
+  delegates to the Aside built-in and keeps codex-host history.
 
 ## Export paths, measured 2026-09-16 on the bundled template
 
@@ -69,6 +87,18 @@ open; upstream completion alone is insufficient. Upstream PRs should reference
 Aside issues without cross-repository auto-closing directives. This policy does
 not itself authorize a push, release, installation or issue closure.
 
+### Port ledger — 0.2.0
+
+Shared source: codexclaw `96e8d5ce51aed862761e335249b3225fa38c0251` (plugin
+0.2.41; the installed cache matched all 38 upstream skill files byte for byte).
+Upstream suites were not rerun in this port; downstream evidence only.
+
+| Change | Kind | Verification |
+|---|---|---|
+| Stable-stage PDF completion, owned process-tree cleanup, `@page` language-literal check, bounded `--dump-dom` SVG crossing diagnostic | Shared, ported | Upstream regression tests ported into `test/report-export.test.mjs`; real-Chrome smoke is opt-in (`CXC_REAL_CHROME=1`) |
+| Paged template: connectors painted before labels, flexible TOC columns, localization note | Shared, ported | Manifest SHA-256 parity |
+| Aside inline `visual` route, promotion fallback tokens, built-in tracker | Aside-only | `test/aside-inline-contract.test.mjs`; fallback tokens rendered in light and dark in the Aside browser |
+
 ### Port ledger — 0.1.0 source verification
 
 Shared source: codexclaw `9d32c389f98da74d147ec6726b97a6f972760414`.
@@ -99,7 +129,8 @@ node scripts/report-intake.mjs assets/research-handoff.example.json --metadata a
 node scripts/report-locale.mjs assets/report-examples/reference-en.json > report.html
 ```
 
-The 2026-09-22 local port run passed 226 tests with no skips. CI repeats the suite
+The 2026-10-08 local 0.2.0 run passed every deterministic test; the one skip is the
+opt-in real-Chrome SVG smoke. The 2026-09-22 0.1.0 run passed 226 tests with no skips. CI repeats the suite
 on Linux, macOS and Windows. Tests pin shared file hashes and standalone references.
 Fixtures use illustrative data; paired-field equality is not proof of faithful prose,
 so bilingual content review and PDF layout inspection were recorded separately.

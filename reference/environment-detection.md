@@ -1,15 +1,21 @@
 # Aside delivery and proportionate verification
 
-Aside delivers standalone artifact files in the session's authorized artifacts
-folder. It does not provide the codex host's inline HTML-fragment renderer.
-A filename or successful open command does not prove rendering or PDF export.
+Aside has two delivery surfaces. Inline: a `visual` code block in the reply,
+rendered in the chat by the built-in `visualize` skill (read its current
+SKILL.md; [Aside inline visuals](aside-inline-visual.md) covers routing and
+promotion). Durable: standalone files in the session's authorized artifacts
+folder. A filename, a successful open command or a sent block does not prove
+rendering or PDF export.
 
 | Requested output | Delivery and proof |
 |---|---|
 | Markdown answer | Return Markdown; no visual is required |
-| Simple static HTML/SVG in ordinary flow | Reread source, save to artifacts, return link; no mandatory browser round trip |
-| Computed or interactive visual | Execute in the available browser, observe the affected state and fix actual defects |
+| In-chat explanation, comparison or small chart | Inline `visual` block; only a simple static table may ship after source reread alone. Preview every other visual using the host's scratch-tab recipe |
+| Simple static HTML/SVG file in ordinary flow | Reread source, save to artifacts, return link; no mandatory browser round trip |
+| Computed or interactive file | Execute in the available browser, observe the affected state and fix actual defects |
+| Inline visual the user wants to keep, share or print | Promote to an artifact with fallback theme tokens; a printed promotion is in the PDF tier |
 | PDF/print/paged report | Actually export, select assurance profile, run the applicable PDF checks |
+| Channel conversation (Slack, Telegram, ...) | `visual` blocks are dropped there; attach a preview screenshot or a file |
 | Missing export capability | Return useful editable source and identify the requested output/check that did not run |
 
 Browser availability does not promote a static edit to visual QA. A reported defect
@@ -32,8 +38,10 @@ verify every actual PDF page. Language never implies paper size.
 
 Keep browser/REPL globals out of saved standalone files. Do not fetch private data
 or add telemetry. If offline operation is promised, ensure all dependencies are local
-and test that promise for computed output. `visualize-contract.md` is historical
-provenance only, never an alternative Aside rendering API.
+and test that promise for computed output. Inline `visual` pages depend on the
+host's injected theme variables and on absolute session image paths, so a saved copy
+needs the fallback token block and local image copies from the promotion steps.
+`visualize-contract.md` is codex-host history, not an Aside rendering API.
 
 ## Research handoff adapter
 
