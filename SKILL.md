@@ -2,7 +2,7 @@
 name: dev-visualizer
 description: "Create well-composed visual documents, HTML reports, SVG diagrams, charts, interactive explainers and PDF deliverables. Use for visualize, visual explanations, architecture diagrams, comparison reports, infographics, document creation, 시각화, 그려줘, 문서 만들어줘, 보고서, PDF 생성. Preserve explicit formats and templates; text-only requests and ordinary code changes do not need a visual. Routes between Aside's inline `visual` chat blocks (/visualize) and durable HTML/SVG/PDF artifacts, and promotes an inline visual to a file on request. Simple static output ships after source review; rendered proof is for computed and exported output."
 metadata:
-  last-verified: "2026-10-08"
+  last-verified: "2026-11-21"
   short-description: "Inline visuals, visual documents, SVG/HTML explainers and PDF delivery, verified in proportion."
   keywords: [diagram, visualization, visualize, /visualize, inline visual, document, report, SVG, HTML, PDF, interactive, cover, contents, storyline, 인라인 시각화]
 ---
@@ -49,7 +49,7 @@ focused explanation. Neither phrase grants permission to publish or install.
 | In-conversation comparison, simulation or explainer | Aside built-in `visualize`: one `visual` code block in the reply (ASIDE-INLINE-01); a file only when the route table there says so | Current built-in `visualize/SKILL.md` in full, then [Aside inline visuals](reference/aside-inline-visual.md) |
 | Keep, share, print or export something shown inline | Promote the inline page to an artifact with fallback theme tokens | [Aside inline visuals](reference/aside-inline-visual.md) promotion steps; [delivery](reference/environment-detection.md) |
 | Small static structure expressible as labeled nodes/edges | Mermaid if host supports it; otherwise a suitable artifact | [SVG and interaction](reference/svg-and-interaction.md) only for custom output |
-| Editable SVG diagram or infographic | Native SVG with legible geometry and text | [Visual design](reference/visual-design.md), [SVG and interaction](reference/svg-and-interaction.md) |
+| Editable SVG diagram or infographic | Native SVG with legible geometry and text | [Diagram types](reference/diagram-types.md), [Visual design](reference/visual-design.md), [SVG and interaction](reference/svg-and-interaction.md) |
 | HTML report, technical brief, visual review or document | Semantic HTML with purposeful figures and readable sections | [Reader documents](reference/reader-documents.md), [Visual design](reference/visual-design.md), [documents/PDF](reference/document-pdf.md) |
 | Multi-page report for a decision maker (client report, research report, proposal, 보고서) | [Report writing](reference/report-writing.md) storyline first, then [paged-report.html](assets/paged-report.html) exported with `scripts/export-paged-report.mjs` | [Report writing](reference/report-writing.md), [Documents/PDF](reference/document-pdf.md) REPORT-PRINT-01/QA-01 and the CJK recipe, [Visual design](reference/visual-design.md) REPORT-DESIGN-01/VIZ-01 |
 | Interactive HTML model | One useful visual plus requested inputs that change it | [SVG and interaction](reference/svg-and-interaction.md), design reference if styling is open |
@@ -73,6 +73,8 @@ source/output languages separately, and preserve values and qualifications. Choo
 or prose is valid. These are report tools, not prerequisites for a simple HTML edit.
 
 ## Compose before styling
+
+Brand gate, house rules (neutral controls, color only in data, no one-sided accent bars) and the Korean copy register: [artifact composition](reference/artifact-composition.md).
 
 Start from the reader contract and document type in
 [Reader documents](reference/reader-documents.md), then run a compact design
@@ -156,11 +158,11 @@ Spend the round trip where the visible result is computed rather than written.
 | An inline `visual` block containing only a simple static table, no script | Reread the source once and send it. The reader's screen is the render. |
 | Any other inline `visual` block, including static stat rows, charts and diagrams | The host skill's scratch-tab preview (about 728 and 380 px, error probe) before replying; exercise the primary control when present. The host contract outranks the codexclaw tier here. |
 | A small static HTML/SVG page in ordinary flow — prose, tables, hand-placed shapes, no runtime data, no library, no export | Reread the source, save it, return the link. |
-| Anything whose visible result is computed — marks drawn from data, connector geometry derived from rendered bounds, a runtime library or webfont, an input that changes the output | DIAGRAM-RENDER-VERIFY-01 in full. |
-| PDF, print output, or a multi-page paged report | DIAGRAM-RENDER-VERIFY-01 with a stated assurance profile. Merely saving or sharing a simple static HTML/SVG file does not promote it to this tier. |
+| Anything whose visible result is computed — marks drawn from data, connector geometry derived from rendered bounds, a runtime library or webfont, an input that changes the output | DIAGRAM-RENDER-VERIFY-01 in full. Default render check: `node scripts/look.mjs <file>` (390 and 1280 px, or print width for an `@page size` document; in Aside pass `--chrome` with any Chromium path or use the no-Chrome route): fix every `✗`, then look at its contact sheet once. |
+| PDF, print output, or a multi-page paged report | `look.mjs` on the HTML source, then DIAGRAM-RENDER-VERIFY-01 with a stated assurance profile. Merely saving or sharing a simple static HTML/SVG file does not promote it to this tier. |
 
 Two rules hold in every tier. An unrun check is never written up as a passed one:
-"not rendered — static HTML in normal flow" is honest, "verified" is not. And a
+"not rendered — static HTML in normal flow" is honest, "verified" is not; `look.mjs` exiting `NOT_RUN` (code 3) means not rendered. And a
 defect promotes the artifact: once the reader reports something wrong, or a first
 render shows it, render each further fix before sending it. Nothing here is enforced
 by a hook, and the calling task's own verification gate still governs its work.
