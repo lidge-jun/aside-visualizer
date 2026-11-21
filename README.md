@@ -87,6 +87,24 @@ open; upstream completion alone is insufficient. Upstream PRs should reference
 Aside issues without cross-repository auto-closing directives. This policy does
 not itself authorize a push, release, installation or issue closure.
 
+### Port ledger — 0.3.0
+
+Upstream: codexclaw `docs/visual-skill-refresh` at `eca6b30e` (PR lidge-jun/codexclaw#341, a work
+branch, not yet merged to `dev` or `main`). Ported:
+
+- **Render check.** `scripts/look.mjs` checks pages at 390 and 1280 px plus a print pass for
+  `@page` documents, and reports NOT_RUN with exit 3 when no browser is available.
+- **Diagrams.** `reference/diagram-types.md` has 21 types (VIZ-FIGURE-01).
+- **Composition.** `reference/artifact-composition.md` adds the VIZ-BRAND-01 brand gate and
+  the house rules: neutral controls, color only in data, no one-sided accent bars.
+- **Shared assets and scripts.** The side bar was removed from `editorial-report.html`,
+  `paged-report.html` and `report-locale.mjs`, and `source-patterns.md` was refreshed.
+- **Adapted.** `SKILL.md` now routes to the new references, and look.mjs is the default
+  computed-tier check.
+
+Downstream: `node --test test/*.test.mjs` 248/249 pass (1 skipped); `look.mjs` reports 0
+problems on `editorial-report.html`.
+
 ### Port ledger — 0.2.0
 
 Shared source: codexclaw `96e8d5ce51aed862761e335249b3225fa38c0251` (plugin
