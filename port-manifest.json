@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "upstream": {
     "repository": "lidge-jun/codexclaw",
-    "sourceSha": "96e8d5ce51aed862761e335249b3225fa38c0251",
+    "sourceSha": "eca6b30e6f38dcf902e19852b9b2a324f9931938",
     "path": "plugins/codexclaw/skills/dev-visualizer"
   },
   "sharedFiles": [
     {
       "path": "assets/editorial-report.html",
-      "sha256": "42f5565f27bb86e83903f67d3a96aba634b0e582a26504efaa74f82f59e04b4e"
+      "sha256": "63b0696686a9b8590e741749a7fcbe34893911f1c6462fa3d69e25adf97dad33"
     },
     {
       "path": "assets/exhibit-recipes.json",
@@ -17,7 +17,7 @@
     },
     {
       "path": "assets/paged-report.html",
-      "sha256": "d29e1e567f4ffc9b9c1285d2c4e232aaf9ec305dd489d70b4a8aacb1941a0ce4"
+      "sha256": "96a6b41a5e7dd4a9ab77e5d0dbd5206cf9acfcfc5545ef45b256a8a63df51d56"
     },
     {
       "path": "assets/report-examples/decision-en.json",
@@ -50,6 +50,14 @@
     {
       "path": "assets/research-handoff.example.json",
       "sha256": "25e4b4f4574f95f02ebf8b9e3611d3282eda81cc3612816415fd53ff2fbdc075"
+    },
+    {
+      "path": "reference/artifact-composition.md",
+      "sha256": "7e66014a62f7adb4ee340bf553f86f13b2c1705070960194ecf3cd804dceaaff"
+    },
+    {
+      "path": "reference/diagram-types.md",
+      "sha256": "fb4005c743316d7f86cdb3d744cee06dee15d34dcf9a157e59b62bb373795285"
     },
     {
       "path": "reference/document-pdf.md",
@@ -85,7 +93,7 @@
     },
     {
       "path": "reference/source-patterns.md",
-      "sha256": "1018ee25acee622dd6b21eaf908e682c3d5a23dc5e76eb1ec0e152c3be1ae50d"
+      "sha256": "f548fea7a867c830503b408d4b6ab0899eb7dd54b8e79b2ee8725c4baf633aa6"
     },
     {
       "path": "reference/svg-and-interaction.md",
@@ -93,7 +101,7 @@
     },
     {
       "path": "reference/visual-design.md",
-      "sha256": "06b28950ec0fc8af717904601c4229b185c1e763079c4743c1ced307bdd0ee6a"
+      "sha256": "1fc8e6d1291963ff47cafc48eb79da556f201ec4ea402ada82fde9029fad590b"
     },
     {
       "path": "scripts/exhibit-contract.mjs",
@@ -102,6 +110,10 @@
     {
       "path": "scripts/export-paged-report.mjs",
       "sha256": "d2529b38f452001872ec98f31cdc5b4afd300b086c9f8901e9b404ac83aeba40"
+    },
+    {
+      "path": "scripts/look.mjs",
+      "sha256": "dfb6a66be42cb6edef932d7dfb89b4f81c3c1151e3b7711f2f3e2e09727d8ffe"
     },
     {
       "path": "scripts/quality-gate.mjs",
@@ -117,7 +129,7 @@
     },
     {
       "path": "scripts/report-locale.mjs",
-      "sha256": "92e2184968b7da493db597ed1c2131cf14bd35bdf85fadb6fdad280340fc65a1"
+      "sha256": "157d09c18b1fe5502dd3a1936c8ed21066ac34d6c11ed8187edc6fa88e3bb7de"
     },
     {
       "path": "scripts/research-adapter.mjs",
@@ -183,9 +195,8 @@
       "node scripts/report-intake.mjs assets/research-handoff.example.json"
     ],
     "upstreamVerification": {
-      "status": "not-run",
-      "reason": "Upstream cache byte parity confirmed; upstream suites not executed in this local port task",
-      "cacheSkillFiles": 38
+      "status": "passed",
+      "reason": "codexclaw docs/visual-skill-refresh eca6b30e: npm test 3899 tests, 0 fail; check-prompt-architecture OK; gate OK; look.mjs 0 problems on both assets (lane D)"
     },
     "downstreamTests": {
       "total": 249,
